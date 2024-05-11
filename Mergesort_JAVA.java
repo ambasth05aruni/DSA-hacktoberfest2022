@@ -1,80 +1,60 @@
-package com.journaldev.ds;
+package Sorting;
 
-public class MergeSort {
+public class Mergesort {
 
-	public static void main(String[] args) {
+    //THE DIVIDE PART OF MERGE SORT
+    static void divide(int[] arr,int start, int end){
+        if(start>=end){
+            return;
+        }
+        int mid=start+(end-start)/2;
+        divide(arr, start, mid); //divide in first half
+        divide(arr, mid+1, end);//divide in second half
+        conquer(arr, start, mid, end);
 
-		int[] arr = { 70, 50, 30, 10, 20, 40, 60 };
 
-		int[] merged = mergeSort(arr, 0, arr.length - 1);
+    }
 
-		for (int val : merged) {
-			System.out.print(val + " ");
-		}
+    //THE CONQUER PART
+    static void conquer(int[] arr,int start, int mid, int end){
+     int index1=start; // to follow the first divided array
+     int index2=mid+1; // to followthe second divided arrray
+     int x =0; //for the temporary array's index ko in check rakhne k liye
+     int [] merger = new int[end-start+1]; //a temporaray array to store the merged data for copying in original array
 
-	}
-
-	public static int[] mergeTwoSortedArrays(int[] one, int[] two) {
-
-		int[] sorted = new int[one.length + two.length];
-
-		int i = 0;
-		int j = 0;
-		int k = 0;
-
-		while (i < one.length && j < two.length) {
-
-			if (one[i] < two[j]) {
-				sorted[k] = one[i];
-				k++;
-				i++;
-			} else {
-				sorted[k] = two[j];
-				k++;
-				j++;
-			}
-		}
-
-		if (i == one.length) {
-
-			while (j < two.length) {
-				sorted[k] = two[j];
-				k++;
-				j++;
-			}
-		}
-
-		if (j == two.length) {
-
-			while (i < one.length) {
-				sorted[k] = one[i];
-				k++;
-				i++;
-			}
-		}
-
-		return sorted;
-
-	}
-
-	public static int[] mergeSort(int[] arr, int lo, int hi) {
-
-		if (lo == hi) {
-			int[] br = new int[1];
-			br[0] = arr[lo];
-
-			return br;
-		}
-
-		int mid = (lo + hi) / 2;
-
-		int[] fh = mergeSort(arr, lo, mid);
-		int[] sh = mergeSort(arr, mid + 1, hi);
-
-		int[] merged = mergeTwoSortedArrays(fh, sh);
-
-		return merged;
-	}
-
+     while(index1<=mid && index2<=end){ //when we are comparing data for the two didide arrays
+    if(arr[index1]<=arr[index2]){
+        merger[x++]=arr[index1++];
+    }  
+    else{
+        merger[x++]=arr[index2++];
+    }
+     }
+while (index1<=mid) {
+    merger[x++]=arr[index1++];
 }
+while (index2<=end) {
+    merger[x++]=arr[index2++];
+}
+for (int i = 0,  j=start; i < merger.length; i++, j++) {
+    arr[j]=merger[i];
+}
+
+    }
+
+
+
+
+
+    public static void main(String[] args) {
+        int[] arr={2,3,4,2,5,2,4,6,3,3,6,7};
+        int n= arr.length;
+        divide(arr, 0, n-1);
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+            
+         }
+    }
+}
+
 OUTPUT
